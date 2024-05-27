@@ -1,0 +1,5 @@
+model_name_or_path: /data/workspace/models/Baichuan2-7B-Chat
+adapter_name_or_path: saves/baichuan2-7b/lora/sft
+template: baichuan2
+finetuning_type: lora
+# CUDA_VISIBLE_DEVICES=4 llamafactory-cli chat examples/inference/baichuan2_lora_sft.yaml
