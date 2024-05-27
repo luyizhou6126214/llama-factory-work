@@ -1,4 +1,5 @@
 import json
+import time
 import torch
 from transformers import AutoModelForCausalLM
 from transformers import AutoTokenizer, AutoModel
@@ -12,17 +13,19 @@ class ChatToBaichuan7B(object):
         torch.cuda.set_device(GPU_DEVICE_INDEX_4)
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=False, trust_remote_code=True)
         self.model = AutoModelForCausalLM.from_pretrained(model_path, 
-                                                        #   device_map="cuda:4", 
+                                                          device_map="cuda:4", 
                                                           torch_dtype=torch.bfloat16, 
                                                           trust_remote_code=True)
         self.model.generation_config = GenerationConfig.from_pretrained(model_path)
 
     def chat(self, message):
         # print(message)
+        s_time = time.time()
         messages = []
         messages.append({"role": "user", "content": message})
         response = self.model.chat(self.tokenizer, messages)
         print(response)
+        print(f'cost time:{time.time() - s_time}')
         print('\n')
         return response
     
@@ -44,20 +47,25 @@ class ChatToBaichuan7B(object):
 
 
 if __name__ == "__main__":
-    # classify模型
-    model_path = '/workspace/luyizhou/LLaMA-Factory/models/Baichuan2-7B-chat_lora_sft-classify'
-    test_json_path = 'data/classify_test.json'
-    save_path = 'atest/test_baichuan2-7b-classify.csv'
+    # # classify模型
+    # model_path = '/workspace/luyizhou/LLaMA-Factory/models/Baichuan2-7B-chat_lora_sft-classify'
+    # test_json_path = 'data/classify_test.json'
+    # save_path = 'atest/test_baichuan2-7b-classify.csv'
 
-    # keywords模型
-    model_path = '/workspace/luyizhou/LLaMA-Factory/models/Baichuan2-7B-chat_lora_sft-keywords'
-    test_json_path = 'data/keywords_test.json'
-    save_path = 'atest/test_baichuan2-7b-keywords.csv'
+    # # keywords模型
+    # model_path = '/workspace/luyizhou/LLaMA-Factory/models/Baichuan2-7B-chat_lora_sft-keywords'
+    # test_json_path = 'data/keywords_test.json'
+    # save_path = 'atest/test_baichuan2-7b-keywords.csv'
 
     # nl2sql模型
-    model_path = '/workspace/luyizhou/LLaMA-Factory/models/Baichuan2-7B-chat_lora_sft-nl2sql'
+    model_path = '/workspace/ai/model/baichuan/Baichuan2-7B-chat_lora_sft-nl2sql'
     test_json_path = 'data/nl2sql_test.json'
     save_path = 'atest/test_baichuan2-7b-nl2sql.csv'
+
+    # # nl2sql模型
+    # model_path = '/workspace/luyizhou/LLaMA-Factory/models/Baichuan2-13B-chat_lora_sft-nl2sql'
+    # test_json_path = 'data/nl2sql_test.json'
+    # save_path = 'atest/test_baichuan2-13b-nl2sql.csv'
 
     model = ChatToBaichuan7B(model_path)
     model.run(test_json_path, save_path)
