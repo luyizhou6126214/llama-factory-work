@@ -1,0 +1,47 @@
+{
+  "add_bos_token": false,
+  "add_eos_token": false,
+  "added_tokens_decoder": {
+    "0": {
+      "content": "<unk>",
+      "lstrip": false,
+      "normalized": true,
+      "rstrip": false,
+      "single_word": true,
+      "special": true
+    },
+    "1": {
+      "content": "<s>",
+      "lstrip": false,
+      "normalized": true,
+      "rstrip": false,
+      "single_word": true,
+      "special": true
+    },
+    "2": {
+      "content": "</s>",
+      "lstrip": false,
+      "normalized": true,
+      "rstrip": false,
+      "single_word": true,
+      "special": true
+    }
+  },
+  "auto_map": {
+    "AutoTokenizer": [
+      "tokenization_baichuan.BaichuanTokenizer",
+      null
+    ]
+  },
+  "bos_token": "<s>",
+  "chat_template": "{% if messages[0]['role'] == 'system' %}{% set system_message = messages[0]['content'] %}{% endif %}{% if system_message is defined %}{{ system_message }}{% endif %}{% for message in messages %}{% set content = message['content'] %}{% if message['role'] == 'user' %}{{ '<reserved_106>' + content + '<reserved_107>' }}{% elif message['role'] == 'assistant' %}{{ content }}{% endif %}{% endfor %}",
+  "clean_up_tokenization_spaces": false,
+  "eos_token": "</s>",
+  "model_max_length": 4096,
+  "pad_token": "<unk>",
+  "padding_side": "right",
+  "sp_model_kwargs": {},
+  "split_special_tokens": false,
+  "tokenizer_class": "BaichuanTokenizer",
+  "unk_token": "<unk>"
+}
